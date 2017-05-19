@@ -3,16 +3,16 @@ package ihm;
 public interface IHM {
     public void lancer();
 
-    public void Inserer();
+    public void inserer();
 
-    public void Selectionner();
+    public void selectionner();
 
-    public void Effacer();
+    public void effacer();
 
-    public void Copier();
+    public void copier();
 
-    public void Couper();
+    public void couper();
 
-    public void Coller();
+    public void coller();
 
 }

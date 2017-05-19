@@ -24,8 +24,10 @@ public class IHMTextuelle implements IHM {
             choixMenu = this.scanner.nextInt();
             switch (choixMenu) {
                 case 0:
+                    this.Inserer();
                     break;
                 case 1:
+                    this.
                     break;
                 case 2:
                     break;
@@ -39,6 +41,36 @@ public class IHMTextuelle implements IHM {
                     break;
             }
         }
+    }
+
+    @Override
+    public void Inserer() {
+
+    }
+
+    @Override
+    public void Selectionner() {
+
+    }
+
+    @Override
+    public void Effacer() {
+
+    }
+
+    @Override
+    public void Copier() {
+
+    }
+
+    @Override
+    public void Couper() {
+
+    }
+
+    @Override
+    public void Coller() {
+
     }
 
     private void afficherZoneDeTravail() {
