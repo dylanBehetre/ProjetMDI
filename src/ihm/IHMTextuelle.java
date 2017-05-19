@@ -3,16 +3,24 @@ package ihm;
 import java.util.Scanner;
 
 public class IHMTextuelle implements IHM {
-    private String zoneDeTravail;
     private boolean estLance;
 
-    private Scanner scanner;
+    private String zoneDeTravail;
+    private int curseur;
+    private int debutSelection;
+    private int finSelection;
+
+
+    private Scanner intScanner;
+    private Scanner stringScanner;
 
     public IHMTextuelle(){
-        this.zoneDeTravail = "";
         this.estLance = false;
+        this.zoneDeTravail = "";
+        this.curseur = 0;
 
-        this.scanner = new Scanner(System.in);
+        this.intScanner = new Scanner(System.in);
+        this.stringScanner = new Scanner(System.in);
     }
 
     public void lancer(){
@@ -21,24 +29,27 @@ public class IHMTextuelle implements IHM {
         while(this.estLance){
             this.afficherZoneDeTravail();
             this.afficherMenu();
-            choixMenu = this.scanner.nextInt();
+            choixMenu = this.intScanner.nextInt();
             switch (choixMenu) {
                 case 0:
-                    this.inserer();
+                    this.arreter();
                     break;
                 case 1:
-                    this.selectionner();
+                    this.inserer();
                     break;
                 case 2:
-                    this.effacer();
+                    this.selectionner();
                     break;
                 case 3:
-                    this.copier();
+                    this.effacer();
                     break;
                 case 4:
-                    this.couper();
+                    this.copier();
                     break;
                 case 5:
+                    this.couper();
+                    break;
+                case 6:
                     this.coller();
                     break;
                 default:
@@ -47,13 +58,42 @@ public class IHMTextuelle implements IHM {
         }
     }
 
+    private void arreter() {
+        this.estLance = false;
+    }
+
     @Override
     public void inserer() {
-
+        System.out.println("Que voulez-vous insérer ?");
+        String textAInserer = this.stringScanner.nextLine();
+        this.curseur += textAInserer.length();
+        this.zoneDeTravail += textAInserer;
     }
 
     @Override
     public void selectionner() {
+        boolean selectionEstCorrect = false;
+        int debutSelection = 0;
+
+        while (!selectionEstCorrect) {
+            System.out.println("Quel est le numéro du caractère à partir duquel vous souhaitez commencer la selection ?");
+            debutSelection = this.intScanner.nextInt();
+            selectionEstCorrect = (debutSelection > 0);
+            if (!selectionEstCorrect) {
+                System.out.println("Attention : Le numero doit être positif !");
+            }
+        }
+
+        selectionEstCorrect = false;
+        int finSelection = 0;
+        while (!selectionEstCorrect) {
+            System.out.println("Quel est le caractère à partir duquel vous souhaitez finir la selection ?");
+            finSelection = this.intScanner.nextInt();
+            selectionEstCorrect = (finSelection > debutSelection);
+            if (!selectionEstCorrect) {
+                System.out.println("Attention : Le numero doit être positif !");
+            }
+        }
 
     }
 
@@ -87,12 +127,13 @@ public class IHMTextuelle implements IHM {
     private void afficherMenu(){
         System.out.println("-----Menu-----");
         System.out.println("Taper le numero de la commande souhaitez : ");
-        System.out.println("0-Inserer");
-        System.out.println("1-Selectionner");
-        System.out.println("2-Effacer");
-        System.out.println("3-Copier");
-        System.out.println("4-Couper");
-        System.out.println("5-Coller");
+        System.out.println("0-Arreter");
+        System.out.println("1-Inserer");
+        System.out.println("2-Selectionner");
+        System.out.println("3-Effacer");
+        System.out.println("4-Copier");
+        System.out.println("5-Couper");
+        System.out.println("6-Coller");
         System.out.println("-----Fin Menu-----");
     }
 }
