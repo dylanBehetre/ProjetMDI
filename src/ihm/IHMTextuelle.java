@@ -24,18 +24,22 @@ public class IHMTextuelle implements IHM {
             choixMenu = this.scanner.nextInt();
             switch (choixMenu) {
                 case 0:
-                    this.Inserer();
+                    this.inserer();
                     break;
                 case 1:
-                    this.
+                    this.selectionner();
                     break;
                 case 2:
+                    this.effacer();
                     break;
                 case 3:
+                    this.copier();
                     break;
                 case 4:
+                    this.couper();
                     break;
                 case 5:
+                    this.coller();
                     break;
                 default:
                     break;
@@ -44,34 +48,35 @@ public class IHMTextuelle implements IHM {
     }
 
     @Override
-    public void Inserer() {
+    public void inserer() {
 
     }
 
     @Override
-    public void Selectionner() {
+    public void selectionner() {
 
     }
 
     @Override
-    public void Effacer() {
+    public void effacer() {
 
     }
 
     @Override
-    public void Copier() {
+    public void copier() {
 
     }
 
     @Override
-    public void Couper() {
+    public void couper() {
 
     }
 
     @Override
-    public void Coller() {
+    public void coller() {
 
     }
+
 
     private void afficherZoneDeTravail() {
         System.out.println("-----Espace de Travail-----");
