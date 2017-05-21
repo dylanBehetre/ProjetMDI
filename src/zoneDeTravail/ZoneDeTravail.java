@@ -31,18 +31,29 @@ public class ZoneDeTravail implements IZoneDeTravail {
     }
 
     /*Methods*/
-
     @Override
     public void ajouterTexte(String texteAAjouter) {
         String texteAvantCurseur = this.texteSaisie.substring(0, this.debutSelection);
         String texteApresCurseur = this.texteSaisie.substring(this.finSelection, this.texteSaisie.length());
-        texteSaisie = texteAvantCurseur + texteAAjouter + texteApresCurseur;
-
-        this.deplacerCusreur(texteAAjouter.length());
+        this.setTexteSaisie(texteAvantCurseur + texteAAjouter + texteApresCurseur);
+        this.setCurseur(this.debutSelection + texteAAjouter.length());
     }
 
-    public void deplacerCusreur(int deplacement) {
-        setCurseur(this.curseur + deplacement);
+    @Override
+    public void effacer() {
+        boolean selection = this.debutSelection != this.curseur;
+        if (selection) {
+            String texteAvantCurseur = this.texteSaisie.substring(0, this.debutSelection);
+            String texteApresCurseur = this.texteSaisie.substring(this.finSelection, this.texteSaisie.length());
+            this.setTexteSaisie(texteAvantCurseur + texteApresCurseur);
+            this.setCurseur(this.debutSelection);
+        } else if (this.curseur != 0) {
+            String texteAvantCurseur = this.texteSaisie.substring(0, this.curseur - 1);
+            String texteApresCurseur = this.texteSaisie.substring(this.curseur, this.texteSaisie.length());
+            this.setTexteSaisie(texteAvantCurseur + texteApresCurseur);
+            this.setCurseur(this.curseur - 1);
+        }
+
     }
 
     /*Getters*/
@@ -67,15 +78,19 @@ public class ZoneDeTravail implements IZoneDeTravail {
     }
 
     public int getLongeurTexte() {
-        return this.getTexteSaisie().length();
+        return this.texteSaisie.length();
     }
 
     /*Setters*/
+    private void setTexteSaisie(String texteSaisie) {
+        this.texteSaisie = texteSaisie;
+    }
+
     public void setPressePapier(String pressePapier) {
         this.pressePapier = pressePapier;
     }
 
-    public void setCurseur(int curseur) {
+    private void setCurseur(int curseur) {
         this.curseur = curseur;
         setDebutSelection(curseur);
         setFinSelection(curseur);

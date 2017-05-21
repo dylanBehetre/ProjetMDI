@@ -5,7 +5,7 @@ public interface IZoneDeTravail {
     /*Methods*/
     public void ajouterTexte(String texteAAjouter);
 
-    public void deplacerCusreur(int deplacement);
+    public void effacer();
 
     /*Getters*/
     public String getTexteSaisie();

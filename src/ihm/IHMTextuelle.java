@@ -133,6 +133,7 @@ public class IHMTextuelle implements IHM {
         System.out.println(this.zoneDeTravail.getTexteSaisie());
         System.out.println("-----Informations sur l'espace de Travail-----");
         System.out.println("Position curseur : " + this.zoneDeTravail.getCurseur());
+        System.out.println("Taille du texte : " + this.zoneDeTravail.getLongeurTexte());
         System.out.println("Presse papier : " + this.zoneDeTravail.getPressePapier());
         System.out.println("Position debut selection : " + this.zoneDeTravail.getDebutSelection());
         System.out.println("Position fin selection : " + this.zoneDeTravail.getFinSelection());
