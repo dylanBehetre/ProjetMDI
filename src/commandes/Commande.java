@@ -1,7 +1,7 @@
 package commandes;
 
-import ihm.IHM;
+import zoneDeTravail.IZoneDeTravail;
 
 public interface Commande {
-    public void execute(IHM uneIHM);
+    public void execute(IZoneDeTravail zoneDeTravail);
 }

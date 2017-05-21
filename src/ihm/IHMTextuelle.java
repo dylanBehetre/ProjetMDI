@@ -1,23 +1,23 @@
 package ihm;
 
+import commandes.Commande;
+import commandes.Inserer;
+import zoneDeTravail.ZoneDeTravail;
+
 import java.util.Scanner;
 
 public class IHMTextuelle implements IHM {
     private boolean estLance;
 
-    private String zoneDeTravail;
-    private int curseur;
-    private int debutSelection;
-    private int finSelection;
-
+    private ZoneDeTravail zoneDeTravail;
 
     private Scanner intScanner;
     private Scanner stringScanner;
 
     public IHMTextuelle(){
         this.estLance = false;
-        this.zoneDeTravail = "";
-        this.curseur = 0;
+
+        this.zoneDeTravail = ZoneDeTravail.getInstance();
 
         this.intScanner = new Scanner(System.in);
         this.stringScanner = new Scanner(System.in);
@@ -66,8 +66,9 @@ public class IHMTextuelle implements IHM {
     public void inserer() {
         System.out.println("Que voulez-vous insérer ?");
         String textAInserer = this.stringScanner.nextLine();
-        this.curseur += textAInserer.length();
-        this.zoneDeTravail += textAInserer;
+
+        Commande inserer = new Inserer(textAInserer);
+        inserer.execute(this.zoneDeTravail);
     }
 
     @Override
@@ -120,7 +121,12 @@ public class IHMTextuelle implements IHM {
 
     private void afficherZoneDeTravail() {
         System.out.println("-----Espace de Travail-----");
-        System.out.println(this.zoneDeTravail);
+        System.out.println(this.zoneDeTravail.getTexteSaisie());
+        System.out.println("-----Informations sur l'espace de Travail-----");
+        System.out.println("Position curseur : " + this.zoneDeTravail.getCurseur());
+        System.out.println("Presse papier : " + this.zoneDeTravail.getPressePapier());
+        System.out.println("Position debut selection : " + this.zoneDeTravail.getDebutSelection());
+        System.out.println("Position fin selection : " + this.zoneDeTravail.getFinSelection());
         System.out.println("-----Fin de l'espace de travail-----");
     }
 
