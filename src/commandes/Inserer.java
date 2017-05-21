@@ -1,10 +1,17 @@
 package commandes;
 
-import ihm.IHM;
+import zoneDeTravail.IZoneDeTravail;
 
-public class Inserer implements Commande{
+public class Inserer implements Commande {
 
-    public void execute(IHM uneIHM) {
+    private String texteAInserer;
 
+    public Inserer(String texteAInserer) {
+        this.texteAInserer = texteAInserer;
+    }
+
+    @Override
+    public void execute(IZoneDeTravail zoneDeTravail) {
+        zoneDeTravail.ajouterTexte(this.texteAInserer);
     }
 }

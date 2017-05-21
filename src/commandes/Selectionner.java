@@ -1,10 +1,11 @@
 package commandes;
 
-import ihm.IHM;
+import zoneDeTravail.IZoneDeTravail;
 
 public class Selectionner implements Commande{
 
-    public void execute(IHM uneIHM) {
+    @Override
+    public void execute(IZoneDeTravail zoneDeTravail) {
 
     }
 }
