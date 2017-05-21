@@ -1,6 +1,7 @@
 package ihm;
 
 import commandes.Commande;
+import commandes.Effacer;
 import commandes.Inserer;
 import commandes.Selectionner;
 import zoneDeTravail.ZoneDeTravail;
@@ -108,7 +109,8 @@ public class IHMTextuelle implements IHM {
 
     @Override
     public void effacer() {
-
+        Commande effacer = new Effacer();
+        effacer.execute(zoneDeTravail);
     }
 
     @Override
