@@ -1,5 +1,8 @@
 package ihm;
 
+import commandes.Commande;
+import commandes.Effacer;
+import commandes.Inserer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -7,14 +10,24 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
+import javafx.scene.text.Text;
+import zoneDeTravail.ZoneDeTravail;
 
 public class IHMGraphique extends Application implements IHM {
 
+    private ZoneDeTravail zdt ;
+    private TextArea text;
+
     public IHMGraphique() {
+        zdt = ZoneDeTravail.getInstance();
+        text = new TextArea();
     }
 
     public void start(Stage primaryStage) throws Exception {
@@ -23,12 +36,16 @@ public class IHMGraphique extends Application implements IHM {
         Scene scene = new Scene(root, 800, 500, Color.WHITE);
         //-----------------------------------------------------------------------------------
         Label label1 = new Label("Texte:");
-        //Text text = new Text();
-        //-----------------------------------------------------------------------------------
-        TextField textField = new TextField ();
-        textField.setLayoutX(0);
-        textField.setLayoutY(300);
-        textField.setPrefSize(300,10);
+        text.setLayoutX(0);
+        text.setLayoutY(30);
+        text.setPrefSize(300,100);
+        text.setOnKeyTyped(new EventHandler<KeyEvent>() {
+
+            @Override
+            public void handle(KeyEvent event) {
+                inserer();
+            }
+        });
         //----------------------------------------------------------------------------------
         Button coupe = new Button();
         coupe.setLayoutX(700);
@@ -38,8 +55,8 @@ public class IHMGraphique extends Application implements IHM {
 
             public void handle(ActionEvent event) {
                 System.out.println("coupe");
-                textField.requestFocus();
-                System.out.println(textField.getSelectedText());
+                text.requestFocus();
+                System.out.println(text.getSelectedText());
             }
         });
         //----------------------------------------------------------------------------------
@@ -51,8 +68,8 @@ public class IHMGraphique extends Application implements IHM {
 
             public void handle(ActionEvent event) {
                 System.out.println("copier");
-                textField.requestFocus();
-                System.out.println(textField.getSelectedText());
+                text.requestFocus();
+                System.out.println(text.getSelectedText());
             }
         });
         //-----------------------------------------------------------------------------------
@@ -64,6 +81,7 @@ public class IHMGraphique extends Application implements IHM {
 
             public void handle(ActionEvent event) {
                 System.out.println("insertion");
+                inserer();
             }
         });
         //-----------------------------------------------------------------------------------
@@ -78,7 +96,7 @@ public class IHMGraphique extends Application implements IHM {
             }
         });
         //-----------------------------------------------------------------------------------
-        root.getChildren().addAll(label1,textField);
+        root.getChildren().addAll(label1,text);
         root.getChildren().add(coupe);
         root.getChildren().add(colle);
         root.getChildren().add(insert);
@@ -102,32 +120,32 @@ public class IHMGraphique extends Application implements IHM {
 
     }
 
-    @Override
     public void inserer() {
+        if(text.getLength() > 0){
+            Character current = text.getText().charAt(text.getLength()-1);
+            Inserer commande = new Inserer(current+"");
+            commande.execute(zdt);
+            System.out.println(zdt.getTexteSaisie());
+        }
 
     }
 
-    @Override
     public void selectionner() {
 
     }
 
-    @Override
     public void effacer() {
 
     }
 
-    @Override
     public void copier() {
 
     }
 
-    @Override
     public void couper() {
 
     }
 
-    @Override
     public void coller() {
 
     }
