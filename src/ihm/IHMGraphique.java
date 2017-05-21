@@ -11,8 +11,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.xml.soap.Text;
+
 
 public class IHMGraphique extends Application implements IHM {
+
+
 
     public IHMGraphique() {
     }
@@ -22,11 +26,26 @@ public class IHMGraphique extends Application implements IHM {
         Group root = new Group();
         Scene scene = new Scene(root, 800, 500, Color.WHITE);
         //-----------------------------------------------------------------------------------
-        Label label1 = new Label("Name:");
+        Label label1 = new Label("Texte:");
+        //Text text = new Text();
+        //-----------------------------------------------------------------------------------
         TextField textField = new TextField ();
         textField.setLayoutX(0);
         textField.setLayoutY(300);
         textField.setPrefSize(300,10);
+        //----------------------------------------------------------------------------------
+        Button coupe = new Button();
+        coupe.setLayoutX(700);
+        coupe.setLayoutY(280);
+        coupe.setText("Couper");
+        coupe.setOnAction(new EventHandler<ActionEvent>() {
+
+            public void handle(ActionEvent event) {
+                System.out.println("coupe");
+                textField.requestFocus();
+                System.out.println(textField.getSelectedText());
+            }
+        });
         //----------------------------------------------------------------------------------
         Button copie = new Button();
         copie.setLayoutX(700);
@@ -36,7 +55,8 @@ public class IHMGraphique extends Application implements IHM {
 
             public void handle(ActionEvent event) {
                 System.out.println("copier");
-                System.out.println(textField.getCharacters());
+                textField.requestFocus();
+                System.out.println(textField.getSelectedText());
             }
         });
         //-----------------------------------------------------------------------------------
@@ -63,6 +83,7 @@ public class IHMGraphique extends Application implements IHM {
         });
         //-----------------------------------------------------------------------------------
         root.getChildren().addAll(label1,textField);
+        root.getChildren().add(coupe);
         root.getChildren().add(colle);
         root.getChildren().add(insert);
         root.getChildren().add(copie);
