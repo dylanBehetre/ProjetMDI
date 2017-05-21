@@ -118,11 +118,31 @@ public class IHMTextuelle implements IHM {
 
     @Override
     public void couper() {
-
+        Commande couper = new Couper();
+        couper.execute(zoneDeTravail);
     }
 
     @Override
     public void coller() {
+        Commande coller = new Coller();
+        coller.execute(zoneDeTravail);
+    }
+
+    public void changerEmplacementCurseur() {
+        boolean saisieCorrecte = false;
+        int nouvelEmplacementCurseur = 0;
+
+        while (!saisieCorrecte) {
+            System.out.println("A quelle indice souhaitez vous placer le curseur ?");
+            nouvelEmplacementCurseur = intScanner.nextInt();
+            saisieCorrecte = (0 <= nouvelEmplacementCurseur) && (nouvelEmplacementCurseur <= this.zoneDeTravail.getLongeurTexte());
+            if (!saisieCorrecte) {
+                System.out.println("Attention : l'indice du curseur doit être entre 0 et " + this.zoneDeTravail.getLongeurTexte() + " !");
+            }
+        }
+
+        Commande changerEmplacementCurseur = new ChangerEmplacementCurseur(nouvelEmplacementCurseur);
+        changerEmplacementCurseur.execute(zoneDeTravail);
 
     }
 
@@ -148,6 +168,7 @@ public class IHMTextuelle implements IHM {
         System.out.println("4-Copier");
         System.out.println("5-Couper");
         System.out.println("6-Coller");
+        System.out.println("7-Changer emplacement curseur");
         System.out.println("-----Fin Menu-----");
     }
 }

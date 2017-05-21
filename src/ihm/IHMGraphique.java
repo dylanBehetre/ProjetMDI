@@ -11,12 +11,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import javax.xml.soap.Text;
-
 
 public class IHMGraphique extends Application implements IHM {
-
-
 
     public IHMGraphique() {
     }
@@ -101,26 +97,37 @@ public class IHMGraphique extends Application implements IHM {
 
     }
 
+    @Override
+    public void changerEmplacementCurseur() {
+
+    }
+
+    @Override
     public void inserer() {
 
     }
 
+    @Override
     public void selectionner() {
 
     }
 
+    @Override
     public void effacer() {
 
     }
 
+    @Override
     public void copier() {
 
     }
 
+    @Override
     public void couper() {
 
     }
 
+    @Override
     public void coller() {
 
     }

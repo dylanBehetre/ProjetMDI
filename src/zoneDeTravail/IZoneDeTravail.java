@@ -5,6 +5,12 @@ public interface IZoneDeTravail {
     /*Methods*/
     public void ajouterTexte(String texteAAjouter);
 
+    public void copier();
+
+    public void coller();
+
+    public void couper();
+
     public void effacer();
 
     /*Getters*/

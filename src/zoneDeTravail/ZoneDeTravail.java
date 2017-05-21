@@ -42,17 +42,39 @@ public class ZoneDeTravail implements IZoneDeTravail {
     public void effacer() {
         boolean selection = this.debutSelection != this.curseur;
         if (selection) {
-            String texteAvantCurseur = this.texteSaisie.substring(0, this.debutSelection);
-            String texteApresCurseur = this.texteSaisie.substring(this.finSelection, this.texteSaisie.length());
-            this.setTexteSaisie(texteAvantCurseur + texteApresCurseur);
-            this.setCurseur(this.debutSelection);
+            this.effacerSelection();
         } else if (this.curseur != 0) {
-            String texteAvantCurseur = this.texteSaisie.substring(0, this.curseur - 1);
-            String texteApresCurseur = this.texteSaisie.substring(this.curseur, this.texteSaisie.length());
-            this.setTexteSaisie(texteAvantCurseur + texteApresCurseur);
-            this.setCurseur(this.curseur - 1);
+            this.effacerCaracterePrecedent();
         }
+    }
 
+    public void effacerSelection() {
+        String texteAvantCurseur = this.texteSaisie.substring(0, this.debutSelection);
+        String texteApresCurseur = this.texteSaisie.substring(this.finSelection, this.texteSaisie.length());
+        this.setTexteSaisie(texteAvantCurseur + texteApresCurseur);
+        this.setCurseur(this.debutSelection);
+    }
+
+    public void effacerCaracterePrecedent() {
+        String texteAvantCurseur = this.texteSaisie.substring(0, this.curseur - 1);
+        String texteApresCurseur = this.texteSaisie.substring(this.curseur, this.texteSaisie.length());
+        this.setTexteSaisie(texteAvantCurseur + texteApresCurseur);
+        this.setCurseur(this.curseur - 1);
+    }
+
+    public void copier() {
+        this.pressePapier = this.texteSaisie.substring(this.debutSelection, this.finSelection);
+    }
+
+    @Override
+    public void coller() {
+        this.ajouterTexte(this.pressePapier);
+    }
+
+    @Override
+    public void couper() {
+        this.copier();
+        this.effacerSelection();
     }
 
     /*Getters*/
