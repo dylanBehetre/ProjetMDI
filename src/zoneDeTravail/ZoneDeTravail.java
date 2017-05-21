@@ -1,5 +1,7 @@
 package zoneDeTravail;
 
+import main.Erreur;
+
 public class ZoneDeTravail implements IZoneDeTravail {
 
     /*Attributes*/
@@ -65,10 +67,6 @@ public class ZoneDeTravail implements IZoneDeTravail {
     }
 
     /*Setters*/
-    public void setTexteSaisie(String texteSaisie) {
-        this.texteSaisie = texteSaisie;
-    }
-
     public void setPressePapier(String pressePapier) {
         this.pressePapier = pressePapier;
     }
@@ -78,10 +76,12 @@ public class ZoneDeTravail implements IZoneDeTravail {
     }
 
     public void setDebutSelection(int debutSelection) {
+        assert debutSelection > 0 : Erreur.message("l'indice de début de la sélection doit être positive !");
         this.debutSelection = debutSelection;
     }
 
     public void setFinSelection(int finSelection) {
+        assert finSelection > this.getDebutSelection() : Erreur.message("l'indice de fin de la sélection doit supérieur à l'indice de début de la sélection !");
         this.finSelection = finSelection;
     }
 }

@@ -2,6 +2,7 @@ package ihm;
 
 import commandes.Commande;
 import commandes.Inserer;
+import commandes.Selectionner;
 import zoneDeTravail.ZoneDeTravail;
 
 import java.util.Scanner;
@@ -96,6 +97,8 @@ public class IHMTextuelle implements IHM {
             }
         }
 
+        Commande selectionner = new Selectionner(debutSelection, finSelection);
+        selectionner.execute(this.zoneDeTravail);
     }
 
     @Override
@@ -117,7 +120,6 @@ public class IHMTextuelle implements IHM {
     public void coller() {
 
     }
-
 
     private void afficherZoneDeTravail() {
         System.out.println("-----Espace de Travail-----");
