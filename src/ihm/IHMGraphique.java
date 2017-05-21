@@ -39,6 +39,12 @@ public class IHMGraphique extends Application implements IHM {
         text.setLayoutX(0);
         text.setLayoutY(30);
         text.setPrefSize(300,100);
+        text.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                changerEmplacementCurseur();
+            }
+        });
         text.setOnKeyTyped(new EventHandler<KeyEvent>() {
 
             @Override
@@ -111,18 +117,20 @@ public class IHMGraphique extends Application implements IHM {
         launch(args);
     }
 
+    @Override
     public void lancer() {
 
     }
 
     @Override
     public void changerEmplacementCurseur() {
-
+        zdt.setCurseur(text.getCaretPosition());
     }
 
+    @Override
     public void inserer() {
         if(text.getLength() > 0){
-            Character current = text.getText().charAt(text.getLength()-1);
+            Character current = text.getText().charAt(text.getCaretPosition()-1);
             Inserer commande = new Inserer(current+"");
             commande.execute(zdt);
             System.out.println(zdt.getTexteSaisie());
@@ -130,22 +138,27 @@ public class IHMGraphique extends Application implements IHM {
 
     }
 
+    @Override
     public void selectionner() {
 
     }
 
+    @Override
     public void effacer() {
 
     }
 
+    @Override
     public void copier() {
 
     }
 
+    @Override
     public void couper() {
 
     }
 
+    @Override
     public void coller() {
 
     }
