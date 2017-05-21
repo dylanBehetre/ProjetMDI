@@ -103,7 +103,7 @@ public class ZoneDeTravail implements IZoneDeTravail {
     }
 
     /*Setters*/
-    private void setTexteSaisie(String texteSaisie) {
+    protected void setTexteSaisie(String texteSaisie) {
         this.texteSaisie = texteSaisie;
     }
 
@@ -118,7 +118,8 @@ public class ZoneDeTravail implements IZoneDeTravail {
     }
 
     public void setDebutSelection(int debutSelection) {
-        assert debutSelection > 0 : Erreur.message("l'indice de début de la sélection doit être positive !");
+        assert this.getLongeurTexte() > debutSelection
+                && debutSelection > 0 : Erreur.message("l'indice de début de la sélection doit être positive et inférieur à la longueur du texte !");
         this.debutSelection = debutSelection;
     }
 
@@ -127,4 +128,6 @@ public class ZoneDeTravail implements IZoneDeTravail {
                 && finSelection < this.getTexteSaisie().length() : Erreur.message("l'indice de fin de la sélection doit supérieur à l'indice de début de la sélection !");
         this.finSelection = finSelection;
     }
+
+
 }
