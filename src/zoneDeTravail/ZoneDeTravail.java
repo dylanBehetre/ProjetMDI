@@ -3,7 +3,6 @@ package zoneDeTravail;
 import main.Erreur;
 
 public class ZoneDeTravail implements IZoneDeTravail {
-
     /*Attributes*/
     private String texteSaisie = "";
     private String pressePapier = "";
@@ -90,7 +89,7 @@ public class ZoneDeTravail implements IZoneDeTravail {
         this.pressePapier = pressePapier;
     }
 
-    private void setCurseur(int curseur) {
+    public void setCurseur(int curseur) {
         this.curseur = curseur;
         setDebutSelection(curseur);
         setFinSelection(curseur);

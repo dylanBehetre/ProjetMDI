@@ -1,9 +1,6 @@
 package ihm;
 
-import commandes.Commande;
-import commandes.Effacer;
-import commandes.Inserer;
-import commandes.Selectionner;
+import commandes.*;
 import zoneDeTravail.ZoneDeTravail;
 
 import java.util.Scanner;
@@ -115,7 +112,8 @@ public class IHMTextuelle implements IHM {
 
     @Override
     public void copier() {
-
+        Commande copier = new Copier();
+        copier.execute(zoneDeTravail);
     }
 
     @Override

@@ -19,6 +19,8 @@ public interface IZoneDeTravail {
     public int getFinSelection();
 
     /*Setters*/
+    public void setCurseur(int curseur);
+
     public void setDebutSelection(int debutSelection);
 
     public void setFinSelection(int finSelection);
