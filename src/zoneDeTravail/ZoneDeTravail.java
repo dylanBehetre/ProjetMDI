@@ -34,15 +34,15 @@ public class ZoneDeTravail implements IZoneDeTravail {
 
     @Override
     public void ajouterTexte(String texteAAjouter) {
-        String texteAvantCurseur = this.texteSaisie.substring(0, this.curseur);
-        String texteApresCurseur = this.texteSaisie.substring(this.curseur, this.texteSaisie.length());
-        ;
+        String texteAvantCurseur = this.texteSaisie.substring(0, this.debutSelection);
+        String texteApresCurseur = this.texteSaisie.substring(this.finSelection, this.texteSaisie.length());
         texteSaisie = texteAvantCurseur + texteAAjouter + texteApresCurseur;
+
         this.deplacerCusreur(texteAAjouter.length());
     }
 
     public void deplacerCusreur(int deplacement) {
-        curseur += deplacement;
+        setCurseur(this.curseur + deplacement);
     }
 
     /*Getters*/
@@ -73,6 +73,8 @@ public class ZoneDeTravail implements IZoneDeTravail {
 
     public void setCurseur(int curseur) {
         this.curseur = curseur;
+        setDebutSelection(curseur);
+        setFinSelection(curseur);
     }
 
     public void setDebutSelection(int debutSelection) {

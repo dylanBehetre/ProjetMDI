@@ -8,12 +8,16 @@ import zoneDeTravail.ZoneDeTravail;
 import java.util.Scanner;
 
 public class IHMTextuelle implements IHM {
+
+    /*Attributes*/
     private boolean estLance;
 
     private ZoneDeTravail zoneDeTravail;
 
     private Scanner intScanner;
     private Scanner stringScanner;
+
+    /*Constructor*/
 
     public IHMTextuelle(){
         this.estLance = false;
@@ -24,6 +28,7 @@ public class IHMTextuelle implements IHM {
         this.stringScanner = new Scanner(System.in);
     }
 
+    /*Methods*/
     public void lancer(){
         this.estLance = true;
         Integer choixMenu;
