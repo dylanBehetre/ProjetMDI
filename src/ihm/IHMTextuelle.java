@@ -56,6 +56,9 @@ public class IHMTextuelle implements IHM {
                 case 6:
                     this.coller();
                     break;
+                case 7:
+                    this.changerEmplacementCurseur();
+                    break;
                 default:
                     break;
             }
