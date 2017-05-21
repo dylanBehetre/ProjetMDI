@@ -66,6 +66,10 @@ public class ZoneDeTravail implements IZoneDeTravail {
         return finSelection;
     }
 
+    public int getLongeurTexte() {
+        return this.getTexteSaisie().length();
+    }
+
     /*Setters*/
     public void setPressePapier(String pressePapier) {
         this.pressePapier = pressePapier;
@@ -83,7 +87,8 @@ public class ZoneDeTravail implements IZoneDeTravail {
     }
 
     public void setFinSelection(int finSelection) {
-        assert finSelection > this.getDebutSelection() : Erreur.message("l'indice de fin de la sélection doit supérieur à l'indice de début de la sélection !");
+        assert finSelection > this.getDebutSelection()
+                && finSelection < this.getTexteSaisie().length() : Erreur.message("l'indice de fin de la sélection doit supérieur à l'indice de début de la sélection !");
         this.finSelection = finSelection;
     }
 }

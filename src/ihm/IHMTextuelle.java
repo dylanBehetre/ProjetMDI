@@ -19,7 +19,7 @@ public class IHMTextuelle implements IHM {
 
     /*Constructor*/
 
-    public IHMTextuelle(){
+    public IHMTextuelle() {
         this.estLance = false;
 
         this.zoneDeTravail = ZoneDeTravail.getInstance();
@@ -29,10 +29,10 @@ public class IHMTextuelle implements IHM {
     }
 
     /*Methods*/
-    public void lancer(){
+    public void lancer() {
         this.estLance = true;
         Integer choixMenu;
-        while(this.estLance){
+        while (this.estLance) {
             this.afficherZoneDeTravail();
             this.afficherMenu();
             choixMenu = this.intScanner.nextInt();
@@ -85,7 +85,7 @@ public class IHMTextuelle implements IHM {
         while (!selectionEstCorrect) {
             System.out.println("Quel est le numéro du caractère à partir duquel vous souhaitez commencer la selection ?");
             debutSelection = this.intScanner.nextInt();
-            selectionEstCorrect = (debutSelection > 0);
+            selectionEstCorrect = (0 <= debutSelection);
             if (!selectionEstCorrect) {
                 System.out.println("Attention : Le numero doit être positif !");
             }
@@ -96,9 +96,9 @@ public class IHMTextuelle implements IHM {
         while (!selectionEstCorrect) {
             System.out.println("Quel est le caractère à partir duquel vous souhaitez finir la selection ?");
             finSelection = this.intScanner.nextInt();
-            selectionEstCorrect = (finSelection > debutSelection);
+            selectionEstCorrect = (debutSelection < finSelection && finSelection <= this.zoneDeTravail.getLongeurTexte());
             if (!selectionEstCorrect) {
-                System.out.println("Attention : Le numero doit être positif !");
+                System.out.println("Attention : Le numero doit être supérieur au début de la sélection et inférieur à la taille du texte !");
             }
         }
 
@@ -137,7 +137,7 @@ public class IHMTextuelle implements IHM {
         System.out.println("-----Fin de l'espace de travail-----");
     }
 
-    private void afficherMenu(){
+    private void afficherMenu() {
         System.out.println("-----Menu-----");
         System.out.println("Taper le numero de la commande souhaitez : ");
         System.out.println("0-Arreter");
