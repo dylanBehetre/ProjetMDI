@@ -1,6 +1,6 @@
 package ihm;
 
-import commandes.Inserer;
+import commandes.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -38,13 +39,19 @@ public class IHMGraphique extends Application implements IHM {
             @Override
             public void handle(MouseEvent event) {
                 changerEmplacementCurseur();
+                selectionner();
             }
         });
         text.setOnKeyTyped(new EventHandler<KeyEvent>() {
-
             @Override
             public void handle(KeyEvent event) {
-                inserer();
+               //----------------BUG----------------------------------
+                if(event.getCode() == KeyCode.BACK_SPACE){
+                    System.out.println("effacer");
+                    effacer();
+                }else{
+                    inserer();
+                }
             }
         });
         //----------------------------------------------------------------------------------
@@ -57,7 +64,8 @@ public class IHMGraphique extends Application implements IHM {
             public void handle(ActionEvent event) {
                 System.out.println("coupe");
                 text.requestFocus();
-                System.out.println(text.getSelectedText());
+                couper();
+                text.setText(zdt.getTexteSaisie());
             }
         });
         //----------------------------------------------------------------------------------
@@ -70,7 +78,7 @@ public class IHMGraphique extends Application implements IHM {
             public void handle(ActionEvent event) {
                 System.out.println("copier");
                 text.requestFocus();
-                System.out.println(text.getSelectedText());
+                copier();
             }
         });
         //-----------------------------------------------------------------------------------
@@ -94,6 +102,8 @@ public class IHMGraphique extends Application implements IHM {
 
             public void handle(ActionEvent event) {
                 System.out.println("Coller");
+                coller();
+                text.setText(zdt.getTexteSaisie());
             }
         });
         //-----------------------------------------------------------------------------------
@@ -126,7 +136,7 @@ public class IHMGraphique extends Application implements IHM {
     public void inserer() {
         if(text.getLength() > 0){
             Character current = text.getText().charAt(text.getCaretPosition()-1);
-            Inserer commande = new Inserer(current+"");
+            Commande commande = new Inserer(current+"");
             commande.execute(zdt);
             System.out.println(zdt.getTexteSaisie());
         }
@@ -135,26 +145,33 @@ public class IHMGraphique extends Application implements IHM {
 
     @Override
     public void selectionner() {
-
+        if(text.getSelection().getStart() < text.getSelection().getEnd()){
+            Commande selection = new Selectionner(text.getSelection().getStart(),text.getSelection().getEnd());
+            selection.execute(zdt);
+        }
     }
 
     @Override
     public void effacer() {
-
+        Commande effacer = new Effacer();
+        effacer.execute(zdt);
     }
 
     @Override
     public void copier() {
-
+        Commande copier = new Copier();
+        copier.execute(zdt);
     }
 
     @Override
     public void couper() {
-
+        Commande couper = new Couper();
+        couper.execute(zdt);
     }
 
     @Override
     public void coller() {
-
+        Commande coller = new Coller();
+        coller.execute(zdt);
     }
 }
