@@ -20,10 +20,14 @@ public class IHMGraphique extends Application implements IHM {
 
     private ZoneDeTravail zdt ;
     private TextArea text;
+    private Character car;
+    private boolean bs;
 
     public IHMGraphique() {
         zdt = ZoneDeTravail.getInstance();
         text = new TextArea();
+        car = ' ';
+        bs = false;
     }
 
     public void start(Stage primaryStage) throws Exception {
@@ -34,7 +38,7 @@ public class IHMGraphique extends Application implements IHM {
         Label label1 = new Label("Texte:");
         text.setLayoutX(0);
         text.setLayoutY(30);
-        text.setPrefSize(300,100);
+        text.setPrefSize(700,450);
         text.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -42,14 +46,23 @@ public class IHMGraphique extends Application implements IHM {
                 selectionner();
             }
         });
+        text.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode() == KeyCode.BACK_SPACE){
+                    System.out.println("Effacer");
+                    effacer();
+                    bs = true;
+                }else{
+                    bs = false;
+                }
+            }
+        });
         text.setOnKeyTyped(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-               //----------------BUG----------------------------------
-                if(event.getCode() == KeyCode.BACK_SPACE){
-                    System.out.println("effacer");
-                    effacer();
-                }else{
+                if(!bs){
+                    car = event.getCharacter().charAt(0);
                     inserer();
                 }
             }
@@ -71,7 +84,7 @@ public class IHMGraphique extends Application implements IHM {
         //----------------------------------------------------------------------------------
         Button copie = new Button();
         copie.setLayoutX(700);
-        copie.setLayoutY(400);
+        copie.setLayoutY(360);
         copie.setText("Copier");
         copie.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -79,18 +92,6 @@ public class IHMGraphique extends Application implements IHM {
                 System.out.println("copier");
                 text.requestFocus();
                 copier();
-            }
-        });
-        //-----------------------------------------------------------------------------------
-        Button insert = new Button();
-        insert.setLayoutX(700);
-        insert.setLayoutY(360);
-        insert.setText("Inserer");
-        insert.setOnAction(new EventHandler<ActionEvent>() {
-
-            public void handle(ActionEvent event) {
-                System.out.println("insertion");
-                inserer();
             }
         });
         //-----------------------------------------------------------------------------------
@@ -110,7 +111,6 @@ public class IHMGraphique extends Application implements IHM {
         root.getChildren().addAll(label1,text);
         root.getChildren().add(coupe);
         root.getChildren().add(colle);
-        root.getChildren().add(insert);
         root.getChildren().add(copie);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -134,13 +134,9 @@ public class IHMGraphique extends Application implements IHM {
 
     @Override
     public void inserer() {
-        if(text.getLength() > 0){
-            Character current = text.getText().charAt(text.getCaretPosition()-1);
-            Commande commande = new Inserer(current+"");
+            Commande commande = new Inserer(car+"");
             commande.execute(zdt);
             System.out.println(zdt.getTexteSaisie());
-        }
-
     }
 
     @Override
