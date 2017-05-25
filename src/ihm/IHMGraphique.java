@@ -24,17 +24,12 @@ public class IHMGraphique extends Application implements IHM {
     private Character car;
     private boolean bs;
     private CareTaker careTaker;
-    private int pointeur;
-    private boolean undone;
-
     public IHMGraphique() {
         zdt = ZoneDeTravail.getInstance();
         text = new TextArea();
         car = ' ';
         bs = false;
         careTaker = new CareTaker();
-        pointeur = -1;
-        undone = false;
     }
 
     public void start(Stage primaryStage) throws Exception {
@@ -165,21 +160,14 @@ public class IHMGraphique extends Application implements IHM {
 
     @Override
     public void changerEmplacementCurseur() {
-        zdt.setCurseur(text.getCaretPosition());
+        Commande cursor = new ChangerEmplacementCurseur(text.getCaretPosition());
+        cursor.execute(zdt,careTaker);
     }
 
     @Override
     public void inserer() {
-            if(undone){
-                careTaker.removeAfterModification(pointeur);
-                undone = false;
-            }
-            if(pointeur <= careTaker.getSize() && pointeur != -1){
-                pointeur++;
-            }
-            careTaker.add(zdt.saveStateToMemento());
             Commande commande = new Inserer(car+"");
-            commande.execute(zdt);
+            commande.execute(zdt,careTaker);
             System.out.println(zdt.getTexteSaisie());
     }
 
@@ -187,66 +175,41 @@ public class IHMGraphique extends Application implements IHM {
     public void selectionner() {
         if(text.getSelection().getStart() < text.getSelection().getEnd()){
             Commande selection = new Selectionner(text.getSelection().getStart(),text.getSelection().getEnd());
-            selection.execute(zdt);
+            selection.execute(zdt,careTaker);
         }
     }
 
     @Override
     public void effacer() {
-        if(pointeur != -1){
-            careTaker.removeAfterModification(pointeur);
-        }
-        careTaker.add(zdt.saveStateToMemento());
         Commande effacer = new Effacer();
-        effacer.execute(zdt);
+        effacer.execute(zdt,careTaker);
     }
 
     @Override
     public void copier() {
         Commande copier = new Copier();
-        copier.execute(zdt);
+        copier.execute(zdt,careTaker);
     }
 
     @Override
     public void couper() {
-        if(pointeur != -1){
-            careTaker.removeAfterModification(pointeur);
-        }
-        careTaker.add(zdt.saveStateToMemento());
         Commande couper = new Couper();
-        couper.execute(zdt);
+        couper.execute(zdt,careTaker);
     }
 
     @Override
     public void coller() {
-        if(pointeur != -1){
-            careTaker.removeAfterModification(pointeur);
-        }
-        careTaker.add(zdt.saveStateToMemento());
         Commande coller = new Coller();
-        coller.execute(zdt);
+        coller.execute(zdt,careTaker);
     }
 
     public void undo(){
-        if(pointeur == -1){
-            careTaker.add(zdt.saveStateToMemento());
-            pointeur = careTaker.getSize()-1;
-            zdt = careTaker.get(pointeur).getState();
-            undone = true;
-        }else{
-            if(pointeur == 0){
-                return;
-            }
-            pointeur = pointeur - 1;
-            zdt = careTaker.get(pointeur).getState();
-            undone = true;
-        }
+        Commande undoc = new Undo();
+        undoc.execute(zdt,careTaker);
     }
 
     public void redo(){
-        if(pointeur < careTaker.getSize()-1){
-            pointeur = pointeur + 1;
-            zdt = careTaker.get(pointeur).getState();
-        }
+        Commande redoc = new Redo();
+        redoc.execute(zdt,careTaker);
     }
 }

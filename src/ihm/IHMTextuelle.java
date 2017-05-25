@@ -1,6 +1,7 @@
 package ihm;
 
 import commandes.*;
+import memento.CareTaker;
 import zoneDeTravail.ZoneDeTravail;
 
 import java.util.Scanner;
@@ -11,6 +12,7 @@ public class IHMTextuelle implements IHM {
     private boolean estLance;
 
     private ZoneDeTravail zoneDeTravail;
+    private CareTaker careTaker;
 
     private Scanner intScanner;
     private Scanner stringScanner;
@@ -24,6 +26,7 @@ public class IHMTextuelle implements IHM {
 
         this.intScanner = new Scanner(System.in);
         this.stringScanner = new Scanner(System.in);
+        this.careTaker = new CareTaker();
     }
 
     /*Methods*/
@@ -59,6 +62,12 @@ public class IHMTextuelle implements IHM {
                 case 7:
                     this.changerEmplacementCurseur();
                     break;
+                case 8:
+                    this.undo();
+                    break;
+                case 9:
+                    this.redo();
+                    break;
                 default:
                     break;
             }
@@ -75,7 +84,7 @@ public class IHMTextuelle implements IHM {
         String textAInserer = this.stringScanner.nextLine();
 
         Commande inserer = new Inserer(textAInserer);
-        inserer.execute(this.zoneDeTravail);
+        inserer.execute(this.zoneDeTravail,careTaker);
     }
 
     @Override
@@ -104,31 +113,41 @@ public class IHMTextuelle implements IHM {
         }
 
         Commande selectionner = new Selectionner(debutSelection, finSelection);
-        selectionner.execute(this.zoneDeTravail);
+        selectionner.execute(this.zoneDeTravail,careTaker);
     }
 
     @Override
     public void effacer() {
         Commande effacer = new Effacer();
-        effacer.execute(zoneDeTravail);
+        effacer.execute(zoneDeTravail,careTaker);
     }
 
     @Override
     public void copier() {
         Commande copier = new Copier();
-        copier.execute(zoneDeTravail);
+        copier.execute(zoneDeTravail,careTaker);
     }
 
     @Override
     public void couper() {
         Commande couper = new Couper();
-        couper.execute(zoneDeTravail);
+        couper.execute(zoneDeTravail,careTaker);
     }
 
     @Override
     public void coller() {
         Commande coller = new Coller();
-        coller.execute(zoneDeTravail);
+        coller.execute(zoneDeTravail,careTaker);
+    }
+
+    public void undo(){
+        Commande undoc = new Undo();
+        undoc.execute(zoneDeTravail,careTaker);
+    }
+
+    public void redo(){
+        Commande redoc = new Redo();
+        redoc.execute(zoneDeTravail,careTaker);
     }
 
     public void changerEmplacementCurseur() {
@@ -145,7 +164,7 @@ public class IHMTextuelle implements IHM {
         }
 
         Commande changerEmplacementCurseur = new ChangerEmplacementCurseur(nouvelEmplacementCurseur);
-        changerEmplacementCurseur.execute(zoneDeTravail);
+        changerEmplacementCurseur.execute(zoneDeTravail,careTaker);
 
     }
 
@@ -172,6 +191,8 @@ public class IHMTextuelle implements IHM {
         System.out.println("5-Couper");
         System.out.println("6-Coller");
         System.out.println("7-Changer emplacement curseur");
+        System.out.println("8-Undo");
+        System.out.println("9-Redo");
         System.out.println("-----Fin Menu-----");
     }
 }

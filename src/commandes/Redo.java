@@ -3,12 +3,10 @@ package commandes;
 import memento.CareTaker;
 import zoneDeTravail.IZoneDeTravail;
 
-public class Couper implements Commande {
+public class Redo implements Commande{
 
-    /*Methods*/
     @Override
     public void execute(IZoneDeTravail zoneDeTravail, CareTaker careTaker) {
-        careTaker.add(zoneDeTravail.saveStateToMemento());
-        zoneDeTravail.couper();
+        zoneDeTravail.setStateFromMemento(careTaker.next());
     }
 }
