@@ -174,7 +174,7 @@ public class IHMGraphique extends Application implements IHM {
                 careTaker.removeAfterModification(pointeur);
                 undone = false;
             }
-            if(pointeur <= careTaker.getSize()){
+            if(pointeur <= careTaker.getSize() && pointeur != -1){
                 pointeur++;
             }
             careTaker.add(zdt.saveStateToMemento());
