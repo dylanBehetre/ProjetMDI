@@ -14,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import memento.CareTaker;
 import zoneDeTravail.ZoneDeTravail;
 
 public class IHMGraphique extends Application implements IHM {
@@ -22,12 +23,18 @@ public class IHMGraphique extends Application implements IHM {
     private TextArea text;
     private Character car;
     private boolean bs;
+    private CareTaker careTaker;
+    private int pointeur;
+    private boolean undone;
 
     public IHMGraphique() {
         zdt = ZoneDeTravail.getInstance();
         text = new TextArea();
         car = ' ';
         bs = false;
+        careTaker = new CareTaker();
+        pointeur = -1;
+        undone = false;
     }
 
     public void start(Stage primaryStage) throws Exception {
@@ -65,6 +72,35 @@ public class IHMGraphique extends Application implements IHM {
                     car = event.getCharacter().charAt(0);
                     inserer();
                 }
+            }
+        });
+        //----------------------------------------------------------------------------------
+        Button redo = new Button();
+        redo.setLayoutX(700);
+        redo.setLayoutY(200);
+        redo.setText("Redo");
+        redo.setOnAction(new EventHandler<ActionEvent>() {
+
+            public void handle(ActionEvent event) {
+                System.out.println("redo");
+                text.requestFocus();
+                redo();
+                text.setText(zdt.getTexteSaisie());
+            }
+        });
+        //----------------------------------------------------------------------------------
+        Button undo = new Button();
+        undo.setLayoutX(700);
+        undo.setLayoutY(240);
+        undo.setText("Undo");
+        undo.setOnAction(new EventHandler<ActionEvent>() {
+
+            public void handle(ActionEvent event) {
+                System.out.println("Undo");
+                text.requestFocus();
+                undo();
+                text.setText(zdt.getTexteSaisie());
+                System.out.println("taille "+careTaker.getSize());
             }
         });
         //----------------------------------------------------------------------------------
@@ -108,7 +144,7 @@ public class IHMGraphique extends Application implements IHM {
             }
         });
         //-----------------------------------------------------------------------------------
-        root.getChildren().addAll(label1,text);
+        root.getChildren().addAll(label1,text,redo,undo);
         root.getChildren().add(coupe);
         root.getChildren().add(colle);
         root.getChildren().add(copie);
@@ -134,6 +170,14 @@ public class IHMGraphique extends Application implements IHM {
 
     @Override
     public void inserer() {
+            if(undone){
+                careTaker.removeAfterModification(pointeur);
+                undone = false;
+            }
+            if(pointeur <= careTaker.getSize()){
+                pointeur++;
+            }
+            careTaker.add(zdt.saveStateToMemento());
             Commande commande = new Inserer(car+"");
             commande.execute(zdt);
             System.out.println(zdt.getTexteSaisie());
@@ -149,6 +193,10 @@ public class IHMGraphique extends Application implements IHM {
 
     @Override
     public void effacer() {
+        if(pointeur != -1){
+            careTaker.removeAfterModification(pointeur);
+        }
+        careTaker.add(zdt.saveStateToMemento());
         Commande effacer = new Effacer();
         effacer.execute(zdt);
     }
@@ -161,13 +209,44 @@ public class IHMGraphique extends Application implements IHM {
 
     @Override
     public void couper() {
+        if(pointeur != -1){
+            careTaker.removeAfterModification(pointeur);
+        }
+        careTaker.add(zdt.saveStateToMemento());
         Commande couper = new Couper();
         couper.execute(zdt);
     }
 
     @Override
     public void coller() {
+        if(pointeur != -1){
+            careTaker.removeAfterModification(pointeur);
+        }
+        careTaker.add(zdt.saveStateToMemento());
         Commande coller = new Coller();
         coller.execute(zdt);
+    }
+
+    public void undo(){
+        if(pointeur == -1){
+            careTaker.add(zdt.saveStateToMemento());
+            pointeur = careTaker.getSize()-1;
+            zdt = careTaker.get(pointeur).getState();
+            undone = true;
+        }else{
+            if(pointeur == 0){
+                return;
+            }
+            pointeur = pointeur - 1;
+            zdt = careTaker.get(pointeur).getState();
+            undone = true;
+        }
+    }
+
+    public void redo(){
+        if(pointeur < careTaker.getSize()-1){
+            pointeur = pointeur + 1;
+            zdt = careTaker.get(pointeur).getState();
+        }
     }
 }

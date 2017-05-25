@@ -1,13 +1,15 @@
 package memento;
 
-public class Memento {
-    private String state;
+import zoneDeTravail.ZoneDeTravail;
 
-    public Memento(String state){
-        this.state = state;
+public class Memento {
+    private ZoneDeTravail zdt;
+
+    public Memento(ZoneDeTravail z){
+        zdt = z.clone();
     }
 
-    public String getState(){
-        return state;
+    public ZoneDeTravail getState(){
+        return zdt;
     }
 }

@@ -10,7 +10,15 @@ public class CareTaker {
         mementoList.add(state);
     }
 
+    public void removeAfterModification(int index){
+        while(mementoList.size()-1 > index){
+            mementoList.remove(mementoList.size()-1);
+        }
+    }
+
     public Memento get(int index){
         return mementoList.get(index);
     }
+
+    public int getSize(){ return mementoList.size();}
 }

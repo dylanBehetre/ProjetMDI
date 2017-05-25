@@ -1,6 +1,7 @@
 package zoneDeTravail;
 
 import main.Erreur;
+import memento.Memento;
 
 public class ZoneDeTravail implements IZoneDeTravail {
     /*Attributes*/
@@ -62,6 +63,10 @@ public class ZoneDeTravail implements IZoneDeTravail {
         this.setCurseur(this.curseur - 1);
     }
 
+    public Memento saveStateToMemento(){
+        return new Memento(this);
+    }
+
     public void copier() {
         this.pressePapier = this.texteSaisie.substring(this.debutSelection, this.finSelection);
     }
@@ -75,6 +80,16 @@ public class ZoneDeTravail implements IZoneDeTravail {
     public void couper() {
         this.copier();
         this.effacerSelection();
+    }
+
+    public ZoneDeTravail clone(){
+        ZoneDeTravail result = new ZoneDeTravail();
+        result.pressePapier = this.getPressePapier();
+        result.texteSaisie = this.getTexteSaisie();
+        result.debutSelection = this.getDebutSelection();
+        result.finSelection = this.getFinSelection();
+        result.curseur = this.getCurseur();
+        return result;
     }
 
     /*Getters*/
@@ -102,6 +117,7 @@ public class ZoneDeTravail implements IZoneDeTravail {
         return this.texteSaisie.length();
     }
 
+
     /*Setters*/
     protected void setTexteSaisie(String texteSaisie) {
         this.texteSaisie = texteSaisie;
@@ -127,6 +143,14 @@ public class ZoneDeTravail implements IZoneDeTravail {
         assert finSelection > this.getDebutSelection()
                 && finSelection < this.getTexteSaisie().length() : Erreur.message("l'indice de fin de la sélection doit supérieur à l'indice de début de la sélection !");
         this.finSelection = finSelection;
+    }
+
+    public void setStateFromMemento(Memento memento){
+        this.curseur = memento.getState().getCurseur();
+        this.debutSelection = memento.getState().getDebutSelection();
+        this.finSelection = memento.getState().getFinSelection();
+        this.texteSaisie = memento.getState().getTexteSaisie();
+        this.pressePapier = memento.getState().getPressePapier();
     }
 
 
