@@ -1,5 +1,6 @@
 package commandes;
 
+import memento.CareTaker;
 import zoneDeTravail.IZoneDeTravail;
 
 public class Inserer implements Commande {
@@ -14,10 +15,10 @@ public class Inserer implements Commande {
 
     /*Methods*/
     @Override
-    public void execute(IZoneDeTravail zoneDeTravail) {
+    public void execute(IZoneDeTravail zoneDeTravail, CareTaker careTaker) {
+        careTaker.add(zoneDeTravail.saveStateToMemento());
         zoneDeTravail.ajouterTexte(this.texteAInserer);
     }
-
     /*Getters*/
     public String getTexteAInserer() {
         return texteAInserer;
@@ -27,4 +28,6 @@ public class Inserer implements Commande {
     public void setTexteAInserer(String texteAInserer) {
         this.texteAInserer = texteAInserer;
     }
+
+
 }

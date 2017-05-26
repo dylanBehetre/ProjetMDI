@@ -14,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import memento.CareTaker;
 import zoneDeTravail.ZoneDeTravail;
 
 public class IHMGraphique extends Application implements IHM {
@@ -22,12 +23,13 @@ public class IHMGraphique extends Application implements IHM {
     private TextArea text;
     private Character car;
     private boolean bs;
-
+    private CareTaker careTaker;
     public IHMGraphique() {
         zdt = ZoneDeTravail.getInstance();
         text = new TextArea();
         car = ' ';
         bs = false;
+        careTaker = new CareTaker();
     }
 
     public void start(Stage primaryStage) throws Exception {
@@ -65,6 +67,35 @@ public class IHMGraphique extends Application implements IHM {
                     car = event.getCharacter().charAt(0);
                     inserer();
                 }
+            }
+        });
+        //----------------------------------------------------------------------------------
+        Button redo = new Button();
+        redo.setLayoutX(700);
+        redo.setLayoutY(200);
+        redo.setText("Redo");
+        redo.setOnAction(new EventHandler<ActionEvent>() {
+
+            public void handle(ActionEvent event) {
+                System.out.println("redo");
+                text.requestFocus();
+                redo();
+                text.setText(zdt.getTexteSaisie());
+            }
+        });
+        //----------------------------------------------------------------------------------
+        Button undo = new Button();
+        undo.setLayoutX(700);
+        undo.setLayoutY(240);
+        undo.setText("Undo");
+        undo.setOnAction(new EventHandler<ActionEvent>() {
+
+            public void handle(ActionEvent event) {
+                System.out.println("Undo");
+                text.requestFocus();
+                undo();
+                text.setText(zdt.getTexteSaisie());
+                System.out.println("taille "+careTaker.getSize());
             }
         });
         //----------------------------------------------------------------------------------
@@ -108,7 +139,7 @@ public class IHMGraphique extends Application implements IHM {
             }
         });
         //-----------------------------------------------------------------------------------
-        root.getChildren().addAll(label1,text);
+        root.getChildren().addAll(label1,text,redo,undo);
         root.getChildren().add(coupe);
         root.getChildren().add(colle);
         root.getChildren().add(copie);
@@ -129,13 +160,14 @@ public class IHMGraphique extends Application implements IHM {
 
     @Override
     public void changerEmplacementCurseur() {
-        zdt.setCurseur(text.getCaretPosition());
+        Commande cursor = new ChangerEmplacementCurseur(text.getCaretPosition());
+        cursor.execute(zdt,careTaker);
     }
 
     @Override
     public void inserer() {
             Commande commande = new Inserer(car+"");
-            commande.execute(zdt);
+            commande.execute(zdt,careTaker);
             System.out.println(zdt.getTexteSaisie());
     }
 
@@ -143,31 +175,41 @@ public class IHMGraphique extends Application implements IHM {
     public void selectionner() {
         if(text.getSelection().getStart() < text.getSelection().getEnd()){
             Commande selection = new Selectionner(text.getSelection().getStart(),text.getSelection().getEnd());
-            selection.execute(zdt);
+            selection.execute(zdt,careTaker);
         }
     }
 
     @Override
     public void effacer() {
         Commande effacer = new Effacer();
-        effacer.execute(zdt);
+        effacer.execute(zdt,careTaker);
     }
 
     @Override
     public void copier() {
         Commande copier = new Copier();
-        copier.execute(zdt);
+        copier.execute(zdt,careTaker);
     }
 
     @Override
     public void couper() {
         Commande couper = new Couper();
-        couper.execute(zdt);
+        couper.execute(zdt,careTaker);
     }
 
     @Override
     public void coller() {
         Commande coller = new Coller();
-        coller.execute(zdt);
+        coller.execute(zdt,careTaker);
+    }
+
+    public void undo(){
+        Commande undoc = new Undo();
+        undoc.execute(zdt,careTaker);
+    }
+
+    public void redo(){
+        Commande redoc = new Redo();
+        redoc.execute(zdt,careTaker);
     }
 }
