@@ -56,10 +56,12 @@ public class ZoneDeTravail implements IZoneDeTravail {
     }
 
     public void effacerCaracterePrecedent() {
-        String texteAvantCurseur = this.texteSaisie.substring(0, this.curseur - 1);
-        String texteApresCurseur = this.texteSaisie.substring(this.curseur, this.texteSaisie.length());
-        this.setTexteSaisie(texteAvantCurseur + texteApresCurseur);
-        this.setCurseur(this.curseur - 1);
+        if (this.curseur != 0) {
+            String texteAvantCurseur = this.texteSaisie.substring(0, this.curseur - 1);
+            String texteApresCurseur = this.texteSaisie.substring(this.curseur, this.texteSaisie.length());
+            this.setTexteSaisie(texteAvantCurseur + texteApresCurseur);
+            this.setCurseur(this.curseur - 1);
+        }
     }
 
     public void copier() {
