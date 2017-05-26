@@ -11,7 +11,7 @@ public class EffacerMemento implements CommandeMemento {
     private Commande effacerIntelligement;
 
     /*Constructors*/
-    public void EffacerMemento() {
+    public EffacerMemento() {
         this.effacerIntelligement = new EffacerIntelligemment();
     }
 
