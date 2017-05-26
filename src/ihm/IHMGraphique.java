@@ -1,6 +1,10 @@
 package ihm;
 
-import commandes.*;
+import commandes.ChangerEmplacementCurseur;
+import commandes.Commande;
+import commandes.Copier;
+import commandes.Selectionner;
+import commandes.commandesMemento.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -52,7 +56,7 @@ public class IHMGraphique extends Application implements IHM {
             @Override
             public void handle(KeyEvent event) {
                 if(event.getCode() == KeyCode.BACK_SPACE){
-                    System.out.println("Effacer");
+                    System.out.println("EffacerIntelligemment");
                     effacer();
                     bs = true;
                 }else{
@@ -155,18 +159,18 @@ public class IHMGraphique extends Application implements IHM {
 
     @Override
     public void lancer() {
-
+        launch();
     }
 
     @Override
     public void changerEmplacementCurseur() {
         Commande cursor = new ChangerEmplacementCurseur(text.getCaretPosition());
-        cursor.execute(zdt,careTaker);
+        cursor.execute(zdt);
     }
 
     @Override
     public void inserer() {
-            Commande commande = new Inserer(car+"");
+        CommandeMemento commande = new InsererMemento(car + "");
             commande.execute(zdt,careTaker);
             System.out.println(zdt.getTexteSaisie());
     }
@@ -175,41 +179,41 @@ public class IHMGraphique extends Application implements IHM {
     public void selectionner() {
         if(text.getSelection().getStart() < text.getSelection().getEnd()){
             Commande selection = new Selectionner(text.getSelection().getStart(),text.getSelection().getEnd());
-            selection.execute(zdt,careTaker);
+            selection.execute(zdt);
         }
     }
 
     @Override
     public void effacer() {
-        Commande effacer = new Effacer();
+        CommandeMemento effacer = new EffacerMemento();
         effacer.execute(zdt,careTaker);
     }
 
     @Override
     public void copier() {
         Commande copier = new Copier();
-        copier.execute(zdt,careTaker);
+        copier.execute(zdt);
     }
 
     @Override
     public void couper() {
-        Commande couper = new Couper();
+        CommandeMemento couper = new CouperMemento();
         couper.execute(zdt,careTaker);
     }
 
     @Override
     public void coller() {
-        Commande coller = new Coller();
+        CommandeMemento coller = new CollerMemento();
         coller.execute(zdt,careTaker);
     }
 
     public void undo(){
-        Commande undoc = new Undo();
+        CommandeMemento undoc = new Undo();
         undoc.execute(zdt,careTaker);
     }
 
     public void redo(){
-        Commande redoc = new Redo();
+        CommandeMemento redoc = new Redo();
         redoc.execute(zdt,careTaker);
     }
 }

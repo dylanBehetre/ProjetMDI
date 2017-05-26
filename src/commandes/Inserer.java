@@ -1,6 +1,5 @@
 package commandes;
 
-import memento.CareTaker;
 import zoneDeTravail.IZoneDeTravail;
 
 public class Inserer implements Commande {
@@ -15,10 +14,18 @@ public class Inserer implements Commande {
 
     /*Methods*/
     @Override
-    public void execute(IZoneDeTravail zoneDeTravail, CareTaker careTaker) {
-        careTaker.add(zoneDeTravail.saveStateToMemento());
-        zoneDeTravail.ajouterTexte(this.texteAInserer);
+    public void execute(IZoneDeTravail zoneDeTravail) {
+        String texteAvantCurseur = zoneDeTravail.getSubstringTexteSaisie(0, zoneDeTravail.getDebutSelection());
+        String texteApresCurseur = zoneDeTravail.getSubstringTexteSaisie(zoneDeTravail.getFinSelection(), zoneDeTravail.getLongeurTexte());
+        zoneDeTravail.setTexteSaisie(texteAvantCurseur + this.getTexteAInserer() + texteApresCurseur);
+
+        zoneDeTravail.setCurseur(zoneDeTravail.getDebutSelection() + this.getLongeurTexteAInserer());
     }
+
+    private int getLongeurTexteAInserer() {
+        return texteAInserer.length();
+    }
+
     /*Getters*/
     public String getTexteAInserer() {
         return texteAInserer;

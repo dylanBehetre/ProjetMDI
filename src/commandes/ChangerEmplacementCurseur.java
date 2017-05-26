@@ -1,6 +1,5 @@
 package commandes;
 
-import memento.CareTaker;
 import zoneDeTravail.IZoneDeTravail;
 
 public class ChangerEmplacementCurseur implements Commande {
@@ -15,7 +14,7 @@ public class ChangerEmplacementCurseur implements Commande {
 
     /*Methods*/
     @Override
-    public void execute(IZoneDeTravail zoneDeTravail, CareTaker careTaker) {
+    public void execute(IZoneDeTravail zoneDeTravail) {
         zoneDeTravail.setCurseur(this.nouvelEmplacementCurseur);
     }
 }

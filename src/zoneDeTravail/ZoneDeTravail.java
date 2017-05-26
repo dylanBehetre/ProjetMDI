@@ -31,57 +31,8 @@ public class ZoneDeTravail implements IZoneDeTravail {
     }
 
     /*Methods*/
-    @Override
-    public void ajouterTexte(String texteAAjouter) {
-        String texteAvantCurseur = this.texteSaisie.substring(0, this.debutSelection);
-        String texteApresCurseur = this.texteSaisie.substring(this.finSelection, this.texteSaisie.length());
-        this.setTexteSaisie(texteAvantCurseur + texteAAjouter + texteApresCurseur);
-        this.setCurseur(this.debutSelection + texteAAjouter.length());
-    }
-
-    @Override
-    public void effacer() {
-        boolean selection = this.debutSelection != this.curseur;
-        if (selection) {
-            this.effacerSelection();
-        } else if (this.curseur != 0) {
-            this.effacerCaracterePrecedent();
-        }
-    }
-
-    public void effacerSelection() {
-        String texteAvantCurseur = this.texteSaisie.substring(0, this.debutSelection);
-        String texteApresCurseur = this.texteSaisie.substring(this.finSelection, this.texteSaisie.length());
-        this.setTexteSaisie(texteAvantCurseur + texteApresCurseur);
-        this.setCurseur(this.debutSelection);
-    }
-
-    public void effacerCaracterePrecedent() {
-        if (this.curseur != 0) {
-            String texteAvantCurseur = this.texteSaisie.substring(0, this.curseur - 1);
-            String texteApresCurseur = this.texteSaisie.substring(this.curseur, this.texteSaisie.length());
-            this.setTexteSaisie(texteAvantCurseur + texteApresCurseur);
-            this.setCurseur(this.curseur - 1);
-        }
-    }
-
     public Memento saveStateToMemento(){
         return new Memento(this);
-    }
-
-    public void copier() {
-        this.pressePapier = this.texteSaisie.substring(this.debutSelection, this.finSelection);
-    }
-
-    @Override
-    public void coller() {
-        this.ajouterTexte(this.pressePapier);
-    }
-
-    @Override
-    public void couper() {
-        this.copier();
-        this.effacerSelection();
     }
 
     public ZoneDeTravail clone(){
@@ -97,6 +48,10 @@ public class ZoneDeTravail implements IZoneDeTravail {
     /*Getters*/
     public String getTexteSaisie() {
         return texteSaisie;
+    }
+
+    public String getSubstringTexteSaisie(int indiceDebut, int indiceFin) {
+        return texteSaisie.substring(indiceDebut, indiceFin);
     }
 
     public String getPressePapier() {
@@ -121,7 +76,7 @@ public class ZoneDeTravail implements IZoneDeTravail {
 
 
     /*Setters*/
-    protected void setTexteSaisie(String texteSaisie) {
+    public void setTexteSaisie(String texteSaisie) {
         this.texteSaisie = texteSaisie;
     }
 

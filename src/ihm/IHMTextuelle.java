@@ -1,6 +1,10 @@
 package ihm;
 
-import commandes.*;
+import commandes.ChangerEmplacementCurseur;
+import commandes.Commande;
+import commandes.Copier;
+import commandes.Selectionner;
+import commandes.commandesMemento.*;
 import memento.CareTaker;
 import zoneDeTravail.ZoneDeTravail;
 
@@ -83,7 +87,7 @@ public class IHMTextuelle implements IHM {
         System.out.println("Que voulez-vous insérer ?");
         String textAInserer = this.stringScanner.nextLine();
 
-        Commande inserer = new Inserer(textAInserer);
+        CommandeMemento inserer = new InsererMemento(textAInserer);
         inserer.execute(this.zoneDeTravail,careTaker);
     }
 
@@ -113,40 +117,40 @@ public class IHMTextuelle implements IHM {
         }
 
         Commande selectionner = new Selectionner(debutSelection, finSelection);
-        selectionner.execute(this.zoneDeTravail,careTaker);
+        selectionner.execute(this.zoneDeTravail);
     }
 
     @Override
     public void effacer() {
-        Commande effacer = new Effacer();
+        CommandeMemento effacer = new EffacerMemento();
         effacer.execute(zoneDeTravail,careTaker);
     }
 
     @Override
     public void copier() {
         Commande copier = new Copier();
-        copier.execute(zoneDeTravail,careTaker);
+        copier.execute(zoneDeTravail);
     }
 
     @Override
     public void couper() {
-        Commande couper = new Couper();
+        CommandeMemento couper = new CouperMemento();
         couper.execute(zoneDeTravail,careTaker);
     }
 
     @Override
     public void coller() {
-        Commande coller = new Coller();
+        CommandeMemento coller = new CollerMemento();
         coller.execute(zoneDeTravail,careTaker);
     }
 
     public void undo(){
-        Commande undoc = new Undo();
+        CommandeMemento undoc = new Undo();
         undoc.execute(zoneDeTravail,careTaker);
     }
 
     public void redo(){
-        Commande redoc = new Redo();
+        CommandeMemento redoc = new Redo();
         redoc.execute(zoneDeTravail,careTaker);
     }
 
@@ -164,7 +168,7 @@ public class IHMTextuelle implements IHM {
         }
 
         Commande changerEmplacementCurseur = new ChangerEmplacementCurseur(nouvelEmplacementCurseur);
-        changerEmplacementCurseur.execute(zoneDeTravail,careTaker);
+        changerEmplacementCurseur.execute(zoneDeTravail);
 
     }
 
