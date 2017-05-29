@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import memento.CareTaker;
 import zoneDeTravail.ZoneDeTravail;
+import javafx.embed.swing.JFXPanel;
 
 public class IHMGraphique extends Application implements IHM {
 
@@ -28,6 +29,7 @@ public class IHMGraphique extends Application implements IHM {
     private Character car;
     private boolean bs;
     private CareTaker careTaker;
+    final JFXPanel fxPanel = new JFXPanel();//Permet d'initaliser la fenetre
     public IHMGraphique() {
         zdt = ZoneDeTravail.getInstance();
         text = new TextArea();
@@ -159,7 +161,7 @@ public class IHMGraphique extends Application implements IHM {
 
     @Override
     public void lancer() {
-        launch();
+        Application.launch();
     }
 
     @Override

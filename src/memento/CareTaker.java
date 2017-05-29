@@ -6,6 +6,11 @@ import java.util.List;
 public class CareTaker {
     private List<Memento> mementoList = new ArrayList<Memento>();
     private int pointeur = 0;
+
+    public boolean isUndo() {
+        return undo;
+    }
+
     private boolean undo = false;
 
     public void setUndo(Boolean b){
@@ -44,6 +49,10 @@ public class CareTaker {
 
     public Memento get(int index){
         return mementoList.get(index);
+    }
+
+    public int getPointeur(){
+        return pointeur;
     }
 
     public Memento getCurrent(){

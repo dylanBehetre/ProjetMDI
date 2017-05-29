@@ -7,6 +7,7 @@ public class Redo implements CommandeMemento {
 
     @Override
     public void execute(IZoneDeTravail zoneDeTravail, CareTaker careTaker) {
+        if(careTaker.isUndo())
         zoneDeTravail.setStateFromMemento(careTaker.next());
     }
 }
