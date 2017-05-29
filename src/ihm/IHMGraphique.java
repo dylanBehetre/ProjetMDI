@@ -43,7 +43,7 @@ public class IHMGraphique extends Application implements IHM {
         Group root = new Group();
         Scene scene = new Scene(root, 800, 500, Color.WHITE);
         //-----------------------------------------------------------------------------------
-        Label label1 = new Label("Texte:");
+        Label label1 = new Label("Presse papier :");
         text.setLayoutX(0);
         text.setLayoutY(30);
         text.setPrefSize(700,450);
@@ -113,6 +113,7 @@ public class IHMGraphique extends Application implements IHM {
 
             public void handle(ActionEvent event) {
                 System.out.println("coupe");
+                label1.setText("Presse papier : "+text.getSelectedText());
                 text.requestFocus();
                 couper();
                 text.setText(zdt.getTexteSaisie());
@@ -127,6 +128,7 @@ public class IHMGraphique extends Application implements IHM {
 
             public void handle(ActionEvent event) {
                 System.out.println("copier");
+                label1.setText("Presse papier : "+text.getSelectedText());
                 text.requestFocus();
                 copier();
             }
